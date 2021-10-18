@@ -95,7 +95,7 @@
 
     GADExtras *extras = [[GADExtras alloc] init];
     if (_correlator == nil) {
-        _correlator = getCorrelator(_adUnitID);
+        _correlator = generateCorrelator();
     }
     extras.additionalParameters = [[NSDictionary alloc] initWithObjectsAndKeys:
                                    _correlator, @"correlator",
