@@ -1,36 +1,34 @@
 package com.matejdr.admanager;
 
 import android.app.Activity;
-import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.LifecycleEventListener;
+import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.uimanager.PixelUtil;
+import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.facebook.react.views.view.ReactViewGroup;
 import com.google.ads.mediation.admob.AdMobAdapter;
 import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.RequestConfiguration;
-import com.google.android.gms.ads.admanager.AppEventListener;
 import com.google.android.gms.ads.admanager.AdManagerAdRequest;
-
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.admanager.AdManagerAdView;
+import com.google.android.gms.ads.admanager.AppEventListener;
+import com.matejdr.admanager.customClasses.CustomTargeting;
+import com.matejdr.admanager.utils.Targeting;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.matejdr.admanager.customClasses.CustomTargeting;
-import com.matejdr.admanager.utils.Targeting;
 
 class BannerAdView extends ReactViewGroup implements AppEventListener, LifecycleEventListener {
 
@@ -56,24 +54,9 @@ class BannerAdView extends ReactViewGroup implements AppEventListener, Lifecycle
     int width;
     int height;
 
-    private class MeasureAndLayoutRunnable implements Runnable {
-        @Override
-        public void run() {
-            if (isFluid()) {
-                adView.measure(
-                        MeasureSpec.makeMeasureSpec(getWidth(), MeasureSpec.EXACTLY),
-                        MeasureSpec.makeMeasureSpec(getHeight(), MeasureSpec.EXACTLY)
-                );
-            } else {
-                adView.measure(width, height);
-            }
-            adView.layout(left, top, left + width, top + height);
-        }
-    }
-
-    public BannerAdView(final Context context, ReactApplicationContext applicationContext) {
+    public BannerAdView(final ThemedReactContext context, ReactApplicationContext applicationContext) {
         super(context);
-        currentActivityContext = applicationContext.getCurrentActivity();
+        currentActivityContext = context.getCurrentActivity();
         applicationContext.addLifecycleEventListener(this);
         this.createAdView();
     }
@@ -91,8 +74,8 @@ class BannerAdView extends ReactViewGroup implements AppEventListener, Lifecycle
         return this.adSize.equals(AdSize.FLUID);
     }
 
-
     private void createAdView() {
+        if (this.currentActivityContext == null) return;
         if (this.adView != null) this.adView.destroy();
 
         AdManagerAdView.LayoutParams layoutParams = new AdManagerAdView.LayoutParams(ReactViewGroup.LayoutParams.MATCH_PARENT, ReactViewGroup.LayoutParams.WRAP_CONTENT);
@@ -295,13 +278,15 @@ class BannerAdView extends ReactViewGroup implements AppEventListener, Lifecycle
     }
 
     public void setAdUnitID(String adUnitID) {
-        if (this.adUnitID != null) {
-            // We can only set adUnitID once, so when it was previously set we have
-            // to recreate the view
-            this.createAdView();
+        if (this.adView != null) {
+            if (this.adUnitID != null) {
+                // We can only set adUnitID once, so when it was previously set we have
+                // to recreate the view
+                this.createAdView();
+            }
+            this.adUnitID = adUnitID;
+            this.adView.setAdUnitId(adUnitID);
         }
-        this.adUnitID = adUnitID;
-        this.adView.setAdUnitId(adUnitID);
     }
 
     public void setTestDevices(String[] testDevices) {
@@ -372,6 +357,23 @@ class BannerAdView extends ReactViewGroup implements AppEventListener, Lifecycle
         if (this.adView != null) {
             this.currentActivityContext = null;
             this.adView.destroy();
+        }
+    }
+
+    private class MeasureAndLayoutRunnable implements Runnable {
+        @Override
+        public void run() {
+            if (adView == null) return;
+
+            if (isFluid()) {
+                adView.measure(
+                        MeasureSpec.makeMeasureSpec(getWidth(), MeasureSpec.EXACTLY),
+                        MeasureSpec.makeMeasureSpec(getHeight(), MeasureSpec.EXACTLY)
+                );
+            } else {
+                adView.measure(width, height);
+            }
+            adView.layout(left, top, left + width, top + height);
         }
     }
 }
