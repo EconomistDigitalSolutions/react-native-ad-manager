@@ -29,10 +29,11 @@ buildscript {
     if (project == rootProject) {
         repositories {
             google()
-            jcenter()
+            mavenCentral()
+            gradlePluginPortal()
         }
         dependencies {
-            classpath 'com.android.tools.build:gradle:3.5.4'
+            classpath 'com.android.tools.build:gradle:7.0.3'
         }
     }
 }
@@ -71,8 +72,8 @@ repositories {
 dependencies {
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
-    implementation 'com.google.android.gms:play-services-ads:20.3.0'
-    implementation 'com.google.ads.mediation:facebook:5.10.0.0'
+    implementation 'com.google.android.gms:play-services-ads:21.3.0'
+    implementation 'com.google.ads.mediation:facebook:6.11.0.0'
 }
 
 def configureReactNativePom(def pom) {
