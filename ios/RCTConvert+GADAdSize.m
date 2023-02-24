@@ -6,19 +6,19 @@
 {
     NSString *adSize = [self NSString:json];
     if ([adSize isEqualToString:@"banner"]) {
-        return kGADAdSizeBanner;
+        return GADAdSizeBanner;
     } else if ([adSize isEqualToString:@"fullBanner"]) {
-        return kGADAdSizeFullBanner;
+        return GADAdSizeFullBanner;
     } else if ([adSize isEqualToString:@"largeBanner"]) {
-        return kGADAdSizeLargeBanner;
+        return GADAdSizeLargeBanner;
     } else if ([adSize isEqualToString:@"fluid"]) {
-        return kGADAdSizeFluid;
+        return GADAdSizeFluid;
     } else if ([adSize isEqualToString:@"skyscraper"]) {
-        return kGADAdSizeSkyscraper;
+        return GADAdSizeSkyscraper;
     } else if ([adSize isEqualToString:@"leaderboard"]) {
-        return kGADAdSizeLeaderboard;
+        return GADAdSizeLeaderboard;
     } else if ([adSize isEqualToString:@"mediumRectangle"]) {
-        return kGADAdSizeMediumRectangle;
+        return GADAdSizeMediumRectangle;
 //    } else if ([adSize isEqualToString:@"smartBannerPortrait"]) {
 //        return kGADAdSizeSmartBannerPortrait;
 //    } else if ([adSize isEqualToString:@"smartBannerLandscape"]) {
@@ -31,7 +31,7 @@
         return GADAdSizeFromCGSize(CGSizeMake(220, 72));
     }
     else {
-        return kGADAdSizeInvalid;
+        return GADAdSizeInvalid;
     }
 }
 
