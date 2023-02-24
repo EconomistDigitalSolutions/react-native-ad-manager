@@ -14,8 +14,8 @@ import {
   findNodeHandle,
   requireNativeComponent,
   UIManager,
-  ViewPropTypes,
 } from 'react-native';
+import { ViewPropTypes } from 'deprecated-react-native-prop-types';
 import { createErrorFromErrorData } from './utils';
 
 class Banner extends Component {

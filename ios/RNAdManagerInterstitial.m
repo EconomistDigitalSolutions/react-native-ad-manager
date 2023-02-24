@@ -52,7 +52,7 @@ RCT_EXPORT_METHOD(setAdUnitID:(NSString *)adUnitID)
 
 RCT_EXPORT_METHOD(setTestDevices:(NSArray *)testDevices)
 {
-    _testDevices = RNAdManagerProcessTestDevices(testDevices, kGADSimulatorID);
+    _testDevices = RNAdManagerProcessTestDevices(testDevices, GADSimulatorID);
 }
 
 RCT_EXPORT_METHOD(setTargeting:(NSDictionary *)targeting)
@@ -94,13 +94,13 @@ RCT_EXPORT_METHOD(requestAd:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromise
             if (publisherProvidedID != nil) {
                 request.publisherProvidedID = publisherProvidedID;
             }
-            NSDictionary *location = [_targeting objectForKey:@"location"];
-            if (location != nil) {
-                CGFloat latitude = [[location objectForKey:@"latitude"] doubleValue];
-                CGFloat longitude = [[location objectForKey:@"longitude"] doubleValue];
-                CGFloat accuracy = [[location objectForKey:@"accuracy"] doubleValue];
-                [request setLocationWithLatitude:latitude longitude:longitude accuracy:accuracy];
-            }
+            // NSDictionary *location = [_targeting objectForKey:@"location"];
+            // if (location != nil) {
+            //     CGFloat latitude = [[location objectForKey:@"latitude"] doubleValue];
+            //     CGFloat longitude = [[location objectForKey:@"longitude"] doubleValue];
+            //     CGFloat accuracy = [[location objectForKey:@"accuracy"] doubleValue];
+            //     [request setLocationWithLatitude:latitude longitude:longitude accuracy:accuracy];
+            // }
         }
 
         [GADInterstitialAd loadWithAdUnitID:_adUnitID request:request completionHandler:^(GADInterstitialAd * _Nullable interstitialAd, NSError * _Nullable error) {

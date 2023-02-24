@@ -170,13 +170,13 @@ static NSString *const kAdTypeTemplate = @"template";
         if (publisherProvidedID != nil) {
             request.publisherProvidedID = publisherProvidedID;
         }
-        NSDictionary *location = [_targeting objectForKey:@"location"];
-        if (location != nil) {
-            CGFloat latitude = [[location objectForKey:@"latitude"] doubleValue];
-            CGFloat longitude = [[location objectForKey:@"longitude"] doubleValue];
-            CGFloat accuracy = [[location objectForKey:@"accuracy"] doubleValue];
-            [request setLocationWithLatitude:latitude longitude:longitude accuracy:accuracy];
-        }
+        // NSDictionary *location = [_targeting objectForKey:@"location"];
+        // if (location != nil) {
+        //     CGFloat latitude = [[location objectForKey:@"latitude"] doubleValue];
+        //     CGFloat longitude = [[location objectForKey:@"longitude"] doubleValue];
+        //     CGFloat accuracy = [[location objectForKey:@"accuracy"] doubleValue];
+        //     [request setLocationWithLatitude:latitude longitude:longitude accuracy:accuracy];
+        // }
     }
 
     @try {
@@ -223,7 +223,7 @@ static NSString *const kAdTypeTemplate = @"template";
     __block NSMutableArray *validAdSizes = [[NSMutableArray alloc] initWithCapacity:adSizes.count];
     [adSizes enumerateObjectsUsingBlock:^(id jsonValue, NSUInteger idx, __unused BOOL *stop) {
         GADAdSize adSize = [RCTConvert GADAdSize:jsonValue];
-        if (GADAdSizeEqualToSize(adSize, kGADAdSizeInvalid)) {
+        if (GADAdSizeEqualToSize(adSize, GADAdSizeInvalid)) {
             RCTLogWarn(@"Invalid adSize %@", jsonValue);
         } else {
             [validAdSizes addObject:NSValueFromGADAdSize(adSize)];
@@ -389,7 +389,7 @@ static NSString *const kAdTypeTemplate = @"template";
     NSMutableArray *validAdSizes = [NSMutableArray arrayWithArray:_validAdSizes];
     if (_adSize != nil) {
         GADAdSize adSize = [RCTConvert GADAdSize:_adSize];
-        if (GADAdSizeEqualToSize(adSize, kGADAdSizeInvalid)) {
+        if (GADAdSizeEqualToSize(adSize, GADAdSizeInvalid)) {
             RCTLogWarn(@"Invalid adSize %@", _adSize);
         } else {
             [validAdSizes addObject:NSValueFromGADAdSize(adSize)];
