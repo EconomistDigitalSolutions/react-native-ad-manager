@@ -3,6 +3,7 @@ package com.matejdr.admanager;
 import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 
@@ -83,6 +84,7 @@ class BannerAdView extends ReactViewGroup implements AppEventListener, Lifecycle
         this.adView = new AdManagerAdView(currentActivityContext);
         this.adView.setLayoutParams(layoutParams);
         this.adView.setAppEventListener(this);
+        this.adView.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
         this.adView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
