@@ -161,7 +161,7 @@ public class Targeting {
         return correlators.get(adUnitID);
     }
 
-    private static String genRandomCorrelator() {
+    public static String genRandomCorrelator() {
         StringBuilder stringBuilder = new StringBuilder();
         Random random = new Random();
         for (int i = 0; i < 16; i++) {

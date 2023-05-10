@@ -49,3 +49,12 @@ NSString *__nullable getCorrelator(NSString *adUnitID)
 
     return correlator;
 }
+
+
+NSString* generateCorrelator()
+{
+
+    NSString *correlator = getRandomPINString(16);
+
+    return correlator;
+}
